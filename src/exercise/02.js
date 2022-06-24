@@ -36,12 +36,15 @@ function useSafeDispatch(dispatch) {
     }
   }, [])
 
-  return (...args) => {
-    if (mountedRef.current) {
-      console.log('running dispatch', mountedRef.current, args)
-      dispatch(...args)
-    }
-  }
+  return React.useCallback(
+    (...args) => {
+      if (mountedRef.current) {
+        console.log('running dispatch', mountedRef.current, args)
+        dispatch(...args)
+      }
+    },
+    [dispatch],
+  )
 }
 
 function useAsync(initialState) {
